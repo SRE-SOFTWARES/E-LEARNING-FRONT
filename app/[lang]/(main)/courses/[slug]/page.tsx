@@ -68,9 +68,10 @@ const CoursePage = ({params}:{params: {slug:string}}) => {
 
 
   const numericId = slug.split('-').pop();
-    console.log(numericId); // This should log '9'
+    console.log(numericId,'uvv'); // This should log '9'
 
 const {data:course, isLoading, isError} = useCourseBySlug(Number(numericId));
+console.log(course,'indi')
   
   const openShareModal = () => {
     setIsShareModalOpen(true);
