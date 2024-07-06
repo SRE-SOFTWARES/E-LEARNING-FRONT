@@ -41,14 +41,7 @@ const CoursesPage: React.FC = () => {
   }, [category_id, courses]);
 
 
-  // useEffect(() => {
-  //   if (category) {
-  //     const filtered = data.courses.filter(course => course.category === category);
-  //     setFilteredCourses(filtered);
-  //   } else {
-  //     setFilteredCourses(data.courses || []); 
-  //   }
-  // }, [category, data]);
+  
 
   const { data: categories } = UseGetAllCategories(); 
 
