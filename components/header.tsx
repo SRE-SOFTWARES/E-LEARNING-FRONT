@@ -92,8 +92,7 @@ export default  function Navbar({ lang }: { lang: any }) {
                   </div>
                   }
                 <Search />
-                <div className="flex flex-row gap-3 mt-8 mb-8">
-                  
+                <div className="flex flex-row gap-3 mt-8 mb-8"> 
                     <div className="w-1/2">
                     <Link href='/auth/signin'>
                       <Button className="w-full p-2 font-sans font-bold bg-white hover:bg-white text-black border-2">
