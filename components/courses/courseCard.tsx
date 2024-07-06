@@ -14,6 +14,8 @@ import { useAllCourses } from '@/utils/hooks/getCourse';
 
 function Cards() {
   const { data:courses=[], isLoading, isError,error } = useAllCourses();
+
+  console.log('courses',courses)
   console.log('courses',isError,error)
   if (isLoading) {  
     return (
