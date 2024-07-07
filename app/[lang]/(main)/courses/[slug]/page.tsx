@@ -76,7 +76,8 @@ const CoursePage = ({ params }: { params: { slug: string } }) => {
       }
   
       const responseData = response.data;
-      window.location.href = responseData.data.checkout_url;
+      console.log(responseData);
+      window.location.href = responseData;
     } catch (error) {
       console.error('Error', error);
     }
