@@ -16,14 +16,15 @@ import { useAllCourses } from '@/utils/hooks/getCourse';
 import { Separator } from '@radix-ui/react-separator';
 import { categorySchema, courseSchema } from '@/types/course';
 import LoadingScreen from '@/components/admin/suspense/loading';
-
+import  {useSession} from 'next-auth/react';
 
 const CoursesPage: React.FC = () => {
   const params = useSearchParams();
   const category_id = params.get('cat_id');
   const { data: courses, isLoading, isError } = useAllCourses();
   const [filteredCourses, setFilteredCourses] = useState<courseSchema[]>([]);
-
+ const session = useSession();
+ console.log(session,'session');
   const formatCategoryName = (name: string) => {
     const firstWord = name.split(' ')[0];
     return encodeURIComponent(firstWord); // Encodes the first word to be URL safe
