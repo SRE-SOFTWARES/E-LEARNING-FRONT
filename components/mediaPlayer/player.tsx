@@ -64,7 +64,7 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       // Cleanup function to destroy Plyr and remove style when component unmounts
       return () => {
         if (playerRef.current) {
-          playerRef.current.destroy();
+          playerRef.current?.destroy();
           playerRef.current = null; // Clear the reference
         }
 
@@ -74,7 +74,7 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
         }
       };
     }
-  }, []); // Only run once on mount, no dependencies
+  }, [videoId]); // Only run once on mount, no dependencies
 
   useEffect(() => {
     // Update Plyr source when videoId changes
@@ -91,7 +91,7 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       playerRef.current.source = source;
 
       // Load the new source
-      playerRef.current.play();
+      playerRef.current?.play();
     }
   }, [videoId]); // Re-run effect when videoId changes
 

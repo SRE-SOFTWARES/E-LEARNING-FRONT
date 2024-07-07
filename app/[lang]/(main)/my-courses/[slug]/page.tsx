@@ -1,7 +1,7 @@
 'use client';
 
 import { useCourseBySlug } from '@/utils/hooks/getCourse';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaRegFaceSadTear } from 'react-icons/fa6';
 import dynamic from 'next/dynamic';
 
@@ -14,13 +14,19 @@ function MyCourse({ params }: { params: { slug: string } }) {
 
   const { data: course, isLoading, isError } = useCourseBySlug(Number(numericId));
   console.log(course?.content&&JSON.parse(course.content),'con')
-  const [selected,setSelected]=useState(course?.content&&JSON.parse(course.content)[0]?.lessons[0]?.videoUrl)
-  console.log(selected,'selected')
-  console.log(course?.content&&JSON.parse(course.content)[0]?.lessons[0]?.videoUrl,'con')
-
+  const [selected,setSelected]=useState("")
+    useEffect(() => {
+        if (course?.content&&JSON.parse(course.content).units[0].lessons[0].videoUrl) {
+            setSelected(course?.content&&JSON.parse(course.content).units[0].lessons[0].videoUrl)
+        }
+    }, [course?.content])
+    console.log(selected,'sel')
+    if(isLoading){
+        return <div>Loading...</div>
+    }
   return (
     <div className="container mx-auto mt-20 p-4">
-      {isLoading && <div>Loading...</div>}
+    
       {isError && (
         <div className='flex justify-center items-center py-20 text-xl'>
           <FaRegFaceSadTear className='mx-5 h-11 w-11' /> Error loading course
@@ -39,7 +45,7 @@ function MyCourse({ params }: { params: { slug: string } }) {
             <div className="space-y-6">
               
                
-            {selected?<PlyrVideoComponent videoId={selected}/>:null}
+            {<PlyrVideoComponent videoId={selected}/>}
           
                  
             </div>
