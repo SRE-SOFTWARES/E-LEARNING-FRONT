@@ -19,7 +19,7 @@ function MyCourse({ params }: { params: { slug: string } }) {
         if (course?.content&&JSON.parse(course.content).units[0].lessons[0].videoUrl) {
             setSelected(course?.content&&JSON.parse(course.content).units[0].lessons[0].videoUrl)
         }
-    }, [course?.content])
+    }, [])
     console.log(selected,'sel')
     if(isLoading){
         return <div>Loading...</div>
