@@ -4,14 +4,14 @@ import 'plyr/dist/plyr.css';
 
 const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
   const playerRef = useRef(null); // Create a reference to the Plyr instance
+  const playerContainerRef = useRef(null); // Reference to the player container
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Initialize Plyr when component mounts
-      const player = new Plyr('#player', {
+      const player = new Plyr(playerContainerRef.current, {
         controls: [
           'play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-          
         ],
         settings: ['captions', 'quality', 'speed', 'loop'],
         quality: {
@@ -25,7 +25,6 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
           showinfo: 0, // Hide video title and player actions
           iv_load_policy: 3, // Hide annotations
         },
-      
       });
 
       playerRef.current = player; // Store the Plyr instance in the reference
@@ -33,20 +32,6 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       const hideYouTubeButtons = () => {
         const style = document.createElement('style');
         style.innerHTML = `
-          #player iframe {
-            pointer-events: none;
-          }
-          #player iframe::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 9999;
-            pointer-events: auto;
-          }
           .ytp-button.ytp-share-button,
           .ytp-button.ytp-watch-later-button,
           .ytp-button.ytp-copylink-button,
@@ -64,7 +49,7 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       // Cleanup function to destroy Plyr and remove style when component unmounts
       return () => {
         if (playerRef.current) {
-          playerRef.current?.destroy();
+          playerRef.current.destroy();
           playerRef.current = null; // Clear the reference
         }
 
@@ -82,7 +67,7 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       const source = {
         type: 'video',
         sources: [{
-          src: `https://www.youtube.com/watch?v=${videoId}`,
+          src: `https://www.youtube.com/embed/${videoId}`,
           provider: 'youtube',
         }],
       };
@@ -91,17 +76,22 @@ const PlyrVideoComponent = ({ videoId }: { videoId: string }) => {
       playerRef.current.source = source;
 
       // Load the new source
-      playerRef.current?.play();
+      playerRef.current.play();
     }
   }, [videoId]); // Re-run effect when videoId changes
 
   return (
-    <div className="plyr__video-embed relative">
+    <div className="plyr__video-embed relative" ref={playerContainerRef}>
       <div
-        className="absolute top-0 left-0 w-full h-[10%] z-10"
+        className="absolute top-0 left-0 w-full z-10"
         style={{ background: 'transparent' }}
       />
-      <video id="player" playsInline />
+      <iframe
+        id="player"
+        src={`https://www.youtube.com/embed/${videoId}`}
+        allow="autoplay; fullscreen"
+        allowFullScreen
+      />
     </div>
   );
 };
