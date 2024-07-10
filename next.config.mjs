@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: true,
     typescript:{
       ignoreBuildErrors:true
-    }
+    },
     images: {
       domains: ['dummyimage.com'],
       remotePatterns: [
